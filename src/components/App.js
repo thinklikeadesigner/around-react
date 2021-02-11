@@ -4,11 +4,30 @@ import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 
 function App() {
+
+
+  function handleEditAvatarClick() {
+    document.querySelector(".modal_type_avatar").classList.add("modal_open");
+  }
+  function   handleEditProfileClick() {
+    document.querySelector(".modal_type_edit").classList.add("modal_open");
+  }
+  function handleAddPlaceClick() {
+    document.querySelector(".modal_type_add").classList.add("modal_open");
+  }
+
   return (
     <>
       <div className="page">
         <Header />
-        <Main />
+        <Main         onEditProfile={handleEditProfileClick}
+onAddPlace={handleAddPlaceClick}
+onEditAvatar={handleEditAvatarClick}
+/>
+
+
+
+
         <Footer />
         <PopupWithForm
           name="edit"
@@ -24,7 +43,8 @@ function App() {
           type2="text"
           inputname2="about"
           placeholder2="About"
-        />
+>
+        </PopupWithForm>
 
         <PopupWithForm
           name="add"
@@ -49,15 +69,14 @@ function App() {
           type1="url"
           inputname1="avatar"
           placeholder1="Image URL"
+          style2={{ display: 'none'}}
         />
 
         <PopupWithForm
           name="delete"
           title="Are you sure?"
-          id1="avatar-input"
-          type1="url"
-          inputname1="avatar"
-          placeholder1="Image URL"
+          style1={{ display: 'none'}}
+          style2={{ display: 'none'}}
         />
       </div>
       <template id="card__template">

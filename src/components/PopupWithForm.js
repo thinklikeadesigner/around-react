@@ -26,6 +26,7 @@ class PopupWithForm extends React.Component {
               type={this.props.type1}
               className={`form__input form__input_type_${this.props.id1}`}
               placeholder={this.props.placeholder1}
+              style={this.props.style1}
               value=""
               required
             />
@@ -41,6 +42,7 @@ class PopupWithForm extends React.Component {
               name={this.props.inputname2}
               className={`form__input form__input_type_${this.props.id2}`}
               placeholder={this.props.placeholder2}
+              style={this.props.style2}
               value=""
               required
             />
