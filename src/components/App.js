@@ -6,10 +6,12 @@ import PopupWithForm from "./PopupWithForm";
 function App() {
 
 
+
+  
   function handleEditAvatarClick() {
     document.querySelector(".modal_type_avatar").classList.add("modal_open");
   }
-  function   handleEditProfileClick() {
+  function handleEditProfileClick() {
     document.querySelector(".modal_type_edit").classList.add("modal_open");
   }
   function handleAddPlaceClick() {
@@ -20,14 +22,11 @@ function App() {
     <>
       <div className="page">
         <Header />
-        <Main         onEditProfile={handleEditProfileClick}
-onAddPlace={handleAddPlaceClick}
-onEditAvatar={handleEditAvatarClick}
-/>
-
-
-
-
+        <Main
+          onEditProfile={handleEditProfileClick}
+          onAddPlace={handleAddPlaceClick}
+          onEditAvatar={handleEditAvatarClick}
+        />
         <Footer />
         <PopupWithForm
           name="edit"
@@ -43,8 +42,7 @@ onEditAvatar={handleEditAvatarClick}
           type2="text"
           inputname2="about"
           placeholder2="About"
->
-        </PopupWithForm>
+        ></PopupWithForm>
 
         <PopupWithForm
           name="add"
@@ -69,14 +67,14 @@ onEditAvatar={handleEditAvatarClick}
           type1="url"
           inputname1="avatar"
           placeholder1="Image URL"
-          style2={{ display: 'none'}}
+          style2={{ display: "none" }}
         />
 
         <PopupWithForm
           name="delete"
           title="Are you sure?"
-          style1={{ display: 'none'}}
-          style2={{ display: 'none'}}
+          style1={{ display: "none" }}
+          style2={{ display: "none" }}
         />
       </div>
       <template id="card__template">

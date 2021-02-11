@@ -2,57 +2,53 @@ import React from "react";
 
 // old name attribute of the form tag = name="formEdit"
 
-class PopupWithForm extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+function PopupWithForm(props) {
 
-  render() {
     return (
-      <div className={`modal modal_type_${this.props.name}`}>
+      <div className={`modal modal_type_${props.name}`}>
         <div className="modal__container">
           <form
             action="#"
-            className={`form form_${this.props.formname}`}
-            name={this.props.name}
+            className={`form form_${props.formname}`}
+            name={props.name}
             novalidate
           >
-            <h2 className="form__title">{this.props.title}</h2>
+            <h2 className="form__title">{props.title}</h2>
             <input
-              id={`${this.props.id1}-input`}
+              id={`${props.id1}-input`}
               minlength="2"
-              maxlength={this.props.maxlength1}
-              name={this.props.inputname1}
-              type={this.props.type1}
-              className={`form__input form__input_type_${this.props.id1}`}
-              placeholder={this.props.placeholder1}
-              style={this.props.style1}
+              maxlength={props.maxlength1}
+              name={props.inputname1}
+              type={props.type1}
+              className={`form__input form__input_type_${props.id1}`}
+              placeholder={props.placeholder1}
+              style={props.style1}
               value=""
               required
             />
             <span
               className="form__input-error"
-              id={`${this.props.id1}-input-error`}
+              id={`${props.id1}-input-error`}
             ></span>
             <input
-              id={`${this.props.id2}-input`}
+              id={`${props.id2}-input`}
               minlength="2"
-              maxlength={this.props.maxlength2}
-              type={this.props.type2}
-              name={this.props.inputname2}
-              className={`form__input form__input_type_${this.props.id2}`}
-              placeholder={this.props.placeholder2}
-              style={this.props.style2}
+              maxlength={props.maxlength2}
+              type={props.type2}
+              name={props.inputname2}
+              className={`form__input form__input_type_${props.id2}`}
+              placeholder={props.placeholder2}
+              style={props.style2}
               value=""
               required
             />
             <span
               className="form__input-error"
-              id={`${this.props.id2}-input-error`}
+              id={`${props.id2}-input-error`}
             ></span>
             <button
               type="submit"
-              className={`form__button ${this.props.name}-submit`}
+              className={`form__button ${props.name}-submit`}
             >
               Save
             </button>
@@ -60,12 +56,11 @@ class PopupWithForm extends React.Component {
           <button
             aria-label="Close Button"
             type="reset"
-            className={`modal__close-button modal__close-button_${this.props.name}`}
+            className={`modal__close-button modal__close-button_${props.name}`}
           ></button>
         </div>
       </div>
     );
-  }
 }
 
 export default PopupWithForm;
