@@ -1,16 +1,6 @@
 # Around-React
 
-
-
-
-
-
-
-
-d
-
-
-
+This project is being converted from HTML, CSS, and Javascript to REACT
 
 
 
