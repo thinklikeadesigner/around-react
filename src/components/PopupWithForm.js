@@ -5,19 +5,19 @@ import React from "react";
 function PopupWithForm(props) {
 
     return (
-      <div className={`modal modal_type_${props.name}`}>
+      <div className={`modal modal_type_${props.name} ${props.isOpen ? 'modal_open' : ''}`}>
         <div className="modal__container">
           <form
             action="#"
             className={`form form_${props.formname}`}
             name={props.name}
-            novalidate
+            noValidate
           >
             <h2 className="form__title">{props.title}</h2>
             <input
               id={`${props.id1}-input`}
-              minlength="2"
-              maxlength={props.maxlength1}
+              minLength="2"
+              maxLength={props.maxLength1}
               name={props.inputname1}
               type={props.type1}
               className={`form__input form__input_type_${props.id1}`}
@@ -32,8 +32,8 @@ function PopupWithForm(props) {
             ></span>
             <input
               id={`${props.id2}-input`}
-              minlength="2"
-              maxlength={props.maxlength2}
+              minLength="2"
+              maxLength={props.maxLength2}
               type={props.type2}
               name={props.inputname2}
               className={`form__input form__input_type_${props.id2}`}
@@ -57,6 +57,7 @@ function PopupWithForm(props) {
             aria-label="Close Button"
             type="reset"
             className={`modal__close-button modal__close-button_${props.name}`}
+            onClick={props.onClose}
           ></button>
         </div>
       </div>

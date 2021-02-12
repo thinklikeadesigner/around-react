@@ -19,7 +19,7 @@ class PopupWithImage extends React.Component {
             <figure className="modal__figure">
               <img
                 src="https://i.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.webp"
-                alt="image loading"
+                // alt="image loading"
                 className="modal__img"
               />
               <figcaption className="modal__caption"></figcaption>

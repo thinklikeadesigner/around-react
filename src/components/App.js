@@ -1,21 +1,41 @@
+import React from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 
 function App() {
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(
+    false
+  );
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(
+    false
+  );
+  const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = React.useState(
+    false
+  );
 
-
-
-  
-  function handleEditAvatarClick() {
-    document.querySelector(".modal_type_avatar").classList.add("modal_open");
-  }
-  function handleEditProfileClick() {
-    document.querySelector(".modal_type_edit").classList.add("modal_open");
-  }
   function handleAddPlaceClick() {
-    document.querySelector(".modal_type_add").classList.add("modal_open");
+    setIsAddPlacePopupOpen(true);
+  }
+
+  function handleEditProfileClick() {
+    setIsEditProfilePopupOpen(true);
+  }
+  function handleEditAvatarClick() {
+    setIsEditAvatarPopupOpen(true);
+  }
+
+  function handleDeleteCardClick() {
+    setIsDeleteCardPopupOpen(true);
+  }
+
+  function closeAllPopups() {
+    setIsAddPlacePopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setIsDeleteCardPopupOpen(false);
   }
 
   return (
@@ -26,30 +46,35 @@ function App() {
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleEditAvatarClick}
+          onDeleteCard={handleDeleteCardClick}
         />
         <Footer />
         <PopupWithForm
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
           name="edit"
           formname="formEdit"
           title="Edit Profile"
           id1="name"
-          maxlength1="40"
+          maxength1="40"
           inputname1="name"
           type1="text"
           placeholder1="Name"
           id2="job"
-          maxlength2="200"
+          maxLength2="200"
           type2="text"
           inputname2="about"
           placeholder2="About"
         ></PopupWithForm>
 
         <PopupWithForm
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
           name="add"
           formname="formAdd"
           title="New Place"
           id1="title-input"
-          maxlength1="30"
+          maxLength1="30"
           inputname1="name"
           type1="text"
           placeholder1="Title"
@@ -60,6 +85,8 @@ function App() {
         />
 
         <PopupWithForm
+        isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
           name="avatar"
           formname="formAvatar"
           title="Avatar"
@@ -71,6 +98,8 @@ function App() {
         />
 
         <PopupWithForm
+          isOpen={isDeleteCardPopupOpen}
+          onClose={closeAllPopups}
           name="delete"
           title="Are you sure?"
           style1={{ display: "none" }}
@@ -81,7 +110,7 @@ function App() {
         <li className="card">
           <img
             src="https://i.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.webp"
-            alt="image loading"
+            // alt="image loading"
             className="card__pic"
           />
           <button
