@@ -20,13 +20,13 @@ function Main({
       setUserDescription(res.about);
       setUserName(res.name);
     });
-  }, [userName, userAvatar, userDescription]);
+  }, []);
 
   React.useEffect(() => {
     api.getCardList().then((res) => {
       setCards(res);
     });
-  }, [cards]);
+  }, []);
 
   return (
     <main className="container">
