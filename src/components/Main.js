@@ -15,34 +15,18 @@ function Main({
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    function handleUserData() {
-      api.getUserInfo().then((res) => {
-        setUserAvatar(res.avatar);
-        setUserDescription(res.about);
-        setUserName(res.name);
-      });
-    }
-
-    handleUserData();
-
-    return () => {
-      handleUserData();
-    };
-  });
+    api.getUserInfo().then((res) => {
+      setUserAvatar(res.avatar);
+      setUserDescription(res.about);
+      setUserName(res.name);
+    });
+  }, [userName, userAvatar, userDescription]);
 
   React.useEffect(() => {
-    function handleCardData() {
-      api.getCardList().then((res) => {
-        setCards(res);
-      });
-    }
-
-    handleCardData();
-
-    return () => {
-      handleCardData();
-    };
-  });
+    api.getCardList().then((res) => {
+      setCards(res);
+    });
+  }, [cards]);
 
   return (
     <main className="container">
