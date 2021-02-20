@@ -13,7 +13,7 @@ function PopupWithImage(props) {
           onClick={props.onClose}
         ></button>
         <figure className="modal__figure">
-          <img src={props.figimage} className="modal__img" />
+          <img src={props.figimage} className="modal__img" alt={props.figcaption}/>
           <figcaption className="modal__caption">{props.figcaption}</figcaption>
         </figure>
       </div>

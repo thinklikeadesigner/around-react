@@ -6,7 +6,6 @@ import PopupWithForm from "./PopupWithForm";
 import PopupWithImage from "./PopupWithImage";
 
 function App() {
-  
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(
     false
@@ -67,17 +66,30 @@ function App() {
           name="edit"
           formname="formEdit"
           title="Edit Profile"
-          id1="name"
-          maxength1="40"
-          inputname1="name"
-          type1="text"
-          placeholder1="Name"
-          id2="job"
-          maxLength2="200"
-          type2="text"
-          inputname2="about"
-          placeholder2="About"
-        ></PopupWithForm>
+        >
+          <input
+            id="name-input"
+            minLength="2"
+            maxLength="40"
+            name="name"
+            type="text"
+            className="form__input form__input_type_name"
+            placeholder="Name"
+            required
+          />
+          <span className="form__input-error" id="name-input-error"></span>
+          <input
+            id="job-input"
+            minLength="2"
+            maxLength="200"
+            type="text"
+            name="about"
+            className="form__input form__input_type_job"
+            placeholder="About Me"
+            required
+          />
+          <span className="form__input-error" id="job-input-error"></span>
+        </PopupWithForm>
 
         <PopupWithForm
           isOpen={isAddPlacePopupOpen}
@@ -85,37 +97,52 @@ function App() {
           name="add"
           formname="formAdd"
           title="New Place"
-          id1="title-input"
-          maxLength1="30"
-          inputname1="name"
-          type1="text"
-          placeholder1="Title"
-          id2="url-input"
-          inputname2="link"
-          type2="url"
-          placeholder2="Image URL"
-        />
-
+        >
+          <input
+            id="title-input"
+            minLength="2"
+            maxLength="30"
+            name="name"
+            type="text"
+            className="form__input form__input_type_title"
+            placeholder="Title"
+            required
+          />
+          <span className="form__input-error" id="title-input-error"></span>
+          <input
+            id="url-input"
+            type="url"
+            name="link"
+            className="form__input form__input_type_url"
+            placeholder="Image URL"
+            required
+          />
+          <span className="form__input-error" id="url-input-error"></span>
+        </PopupWithForm>
         <PopupWithForm
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           name="avatar"
           formname="formAvatar"
           title="Avatar"
-          id1="avatar-input"
-          type1="url"
-          inputname1="avatar"
-          placeholder1="Image URL"
-          style2={{ display: "none" }}
-        />
+        >
+          <input
+            id="avatar-input"
+            type="url"
+            name="avatar"
+            className="form__input form__input_type_url form__input_type_avatar"
+            placeholder="Image URL"
+            required
+          />
+
+          <span className="form__input-error" id="avatar-input-error"></span>
+        </PopupWithForm>
 
         <PopupWithForm
           isOpen={isDeleteCardPopupOpen}
           onClose={closeAllPopups}
           name="delete"
           title="Are you sure?"
-          style1={{ display: "none" }}
-          style2={{ display: "none" }}
         />
         <PopupWithImage
           isOpen={isImagePopupOpen}
