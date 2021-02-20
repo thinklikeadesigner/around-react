@@ -3,8 +3,10 @@ import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
+import PopupWithImage from "./PopupWithImage";
 
 function App() {
+  
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(
     false
@@ -15,9 +17,16 @@ function App() {
   const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = React.useState(
     false
   );
+  const [selectedCard, setSelectedCard] = React.useState(false);
+  const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
 
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true);
+  }
+
+  function handleCardClick(card) {
+    setSelectedCard(card);
+    setIsImagePopupOpen(true);
   }
 
   function handleEditProfileClick() {
@@ -36,6 +45,8 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsDeleteCardPopupOpen(false);
+    setSelectedCard(false);
+    setIsImagePopupOpen(false);
   }
 
   return (
@@ -47,6 +58,7 @@ function App() {
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleEditAvatarClick}
           onDeleteCard={handleDeleteCardClick}
+          onCardClick={handleCardClick}
         />
         <Footer />
         <PopupWithForm
@@ -85,7 +97,7 @@ function App() {
         />
 
         <PopupWithForm
-        isOpen={isEditAvatarPopupOpen}
+          isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           name="avatar"
           formname="formAvatar"
@@ -105,27 +117,13 @@ function App() {
           style1={{ display: "none" }}
           style2={{ display: "none" }}
         />
+        <PopupWithImage
+          isOpen={isImagePopupOpen}
+          onClose={closeAllPopups}
+          figimage={selectedCard.link}
+          figcaption={selectedCard.name}
+        />
       </div>
-      <template id="card__template">
-        <li className="card">
-          <img
-            src="https://i.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.webp"
-            // alt="image loading"
-            className="card__pic"
-          />
-          <button
-            aria-label="Delete Button"
-            className="card__delete-btn"
-          ></button>
-          <div className="card__text">
-            <h2 className="card__title"></h2>
-            <div className="card__likes_container">
-              <button aria-label="Like Button" className="card__heart"></button>
-              <p className="card__likes_count">0</p>
-            </div>
-          </div>
-        </li>
-      </template>
     </>
   );
 }

@@ -1,12 +1,21 @@
 import React from "react";
 import { api } from "../utils/Api";
-function Main(props) {
+import Card from "../components/Card";
+
+function Main({
+  onCardClick,
+  onAddPlace,
+  onEditProfile,
+  onEditAvatar,
+  selectedCard,
+}) {
   const [userName, setUserName] = React.useState("");
   const [userDescription, setUserDescription] = React.useState("");
   const [userAvatar, setUserAvatar] = React.useState("");
+  const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    function handleSetData() {
+    function handleUserData() {
       api.getUserInfo().then((res) => {
         setUserAvatar(res.avatar);
         setUserDescription(res.about);
@@ -14,10 +23,24 @@ function Main(props) {
       });
     }
 
-    handleSetData();
+    handleUserData();
 
     return () => {
-      handleSetData();
+      handleUserData();
+    };
+  });
+
+  React.useEffect(() => {
+    function handleCardData() {
+      api.getCardList().then((res) => {
+        setCards(res);
+      });
+    }
+
+    handleCardData();
+
+    return () => {
+      handleCardData();
     };
   });
 
@@ -26,9 +49,9 @@ function Main(props) {
       <section className="profile">
         <div className="profile__container">
           <div className="profile__info">
-            <div className="profile__avatar-btn" onClick={props.onEditAvatar}>
-              <img
-                src={userAvatar}
+            <div className="profile__avatar-btn" onClick={onEditAvatar}>
+              <div
+                style={{ backgroundImage: `url(${userAvatar})` }}
                 className="profile__pic"
               />
             </div>
@@ -38,7 +61,7 @@ function Main(props) {
                 type="button"
                 aria-label="Profile Edit Button"
                 className="form_button profile__edit-btn"
-                onClick={props.onEditProfile}
+                onClick={onEditProfile}
               ></button>
               <p className="profile__job">{userDescription}</p>
             </div>
@@ -48,12 +71,16 @@ function Main(props) {
             aria-label="Card Add Button"
             id="addButton"
             className="form_button profile__add-btn"
-            onClick={props.onAddPlace}
+            onClick={onAddPlace}
           ></button>
         </div>
       </section>
       <section className="cards">
-        <ul className="cards__list"></ul>
+        <ul className="cards__list">
+          {cards.map((card, i) => (
+            <Card card={card} key={card._id} onCardClick={onCardClick} />
+          ))}
+        </ul>
       </section>
     </main>
   );
