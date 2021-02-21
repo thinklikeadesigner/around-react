@@ -19,13 +19,15 @@ function Main({
       setUserAvatar(res.avatar);
       setUserDescription(res.about);
       setUserName(res.name);
-    });
+    }).catch((err) => {
+      console.log(err);
   }, []);
 
   React.useEffect(() => {
     api.getCardList().then((res) => {
       setCards(res);
-    });
+    }).catch((err) => {
+      console.log(err);
   }, []);
 
   return (
