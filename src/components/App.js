@@ -4,6 +4,8 @@ import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import PopupWithImage from "./PopupWithImage";
+import {CurrentUserContext} from "../contexts/CurrentUserContext";
+import { api } from "../utils/api";
 
 function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
@@ -18,6 +20,7 @@ function App() {
   );
   const [selectedCard, setSelectedCard] = React.useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
+  const [currentUser, setCurrentUser] = React.useState([]);
 
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true);
@@ -48,9 +51,19 @@ function App() {
     setIsImagePopupOpen(false);
   }
 
+  React.useEffect(() => {
+    api.getUserInfo().then((res) => {
+      setCurrentUser(res);
+      console.log(res);
+    }).catch((err) => {
+      console.log(err);
+  }, []);});
+
   return (
     <>
+          <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
+
         <Header />
         <Main
           onEditProfile={handleEditProfileClick}
@@ -150,7 +163,9 @@ function App() {
           figimage={selectedCard.link}
           figcaption={selectedCard.name}
         />
+        
       </div>
+      </CurrentUserContext.Provider>
     </>
   );
 }
