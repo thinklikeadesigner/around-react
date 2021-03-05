@@ -16,6 +16,14 @@ const cardDeleteButtonClassName = (
   `card__delete-btn ${isOwn ? 'card_show-delete-btn card_show-delete-btn' : 'card__delete-btn'}`
 ); 
 
+
+// Check if the card was liked by the current user
+const isLiked = props.card.likes.some(i => i._id === currentUser._id);
+
+// Create a variable which you then set in `className` for the like button
+const cardLikeButtonClassName = `card__heart ${isLiked ? ' card__heart_active' : 'card__heart'}`;
+
+
   return (
     <li className={`card `}>
       <div
@@ -27,7 +35,7 @@ const cardDeleteButtonClassName = (
       <div className="card__text">
         <h2 className="card__title">{props.card.name}</h2>
         <div className="card__likes_container">
-          <button aria-label="Like Button" className="card__heart"></button>
+          <button aria-label="Like Button" className={`${cardLikeButtonClassName}`} ></button>
           <p className="card__likes_count">{props.card.likes.length}</p>
         </div>
       </div>
