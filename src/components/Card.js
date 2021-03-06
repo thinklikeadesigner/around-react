@@ -6,6 +6,10 @@ function Card(props) {
     props.onCardClick(props.card);
   }
 
+  function handleLikeClick() {
+    props.onCardLike(props.card);
+  }
+
   const currentUser = React.useContext(CurrentUserContext);
 
   // Checking if you are the owner of the current card
@@ -35,7 +39,7 @@ const cardLikeButtonClassName = `card__heart ${isLiked ? ' card__heart_active' :
       <div className="card__text">
         <h2 className="card__title">{props.card.name}</h2>
         <div className="card__likes_container">
-          <button aria-label="Like Button" className={`${cardLikeButtonClassName}`} ></button>
+          <button aria-label="Like Button" onClick={handleLikeClick} className={`${cardLikeButtonClassName}`} ></button>
           <p className="card__likes_count">{props.card.likes.length}</p>
         </div>
       </div>

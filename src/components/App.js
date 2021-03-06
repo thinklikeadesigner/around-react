@@ -31,6 +31,8 @@ function App() {
     setIsImagePopupOpen(true);
   }
 
+
+
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
   }
@@ -50,15 +52,6 @@ function App() {
     setSelectedCard(false);
     setIsImagePopupOpen(false);
   }
-
-  // React.useEffect(() => {
-  //   api.getUserInfo().then((res) => {
-  //     setCurrentUser(res);
-  //     console.log(res);
-  //   }).catch((err) => {
-  //     console.log(err);
-  // }, []);});
-
 
   React.useEffect(() => {
     let mounted = true;

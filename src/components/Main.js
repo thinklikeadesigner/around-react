@@ -10,12 +10,13 @@ function Main({
   onEditAvatar,
 }) {
 
+
+
+
   const currentUser = React.useContext(CurrentUserContext);
 
   const [cards, setCards] = React.useState([]);
 
-
- 
 
     React.useEffect(() => {
     let mounted = true;
@@ -28,12 +29,20 @@ function Main({
     return () => mounted = false;
   }, [])
 
-  // React.useEffect(() => {
-  //   api.getCardList().then((res) => {
-  //     setCards(res);
-  //   }).catch((err) => {
-  //     console.log(err);
-  // }, []);});
+
+  function handleCardLike(card) {
+    // Check one more time if this card was already liked
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    
+    // Send a request to the API and getting the updated card data
+    api.changeCardLikeStatus(card._id, !isLiked).then((newCard) => {
+        // Create a new array based on the existing one and putting a new card into it
+      const newCards = cards.map((c) => c._id === card._id ? newCard : c);
+      // Update the state
+      setCards(newCards);
+    });
+} 
+
 
   return (
     <main className="container">
@@ -69,7 +78,7 @@ function Main({
       <section className="cards">
         <ul className="cards__list">
           {cards.map((card, i) => (
-            <Card card={card} key={card._id} onCardClick={onCardClick} />
+            <Card card={card} key={card._id} onCardLike={handleCardLike} onCardClick={onCardClick} />
           ))}
         </ul>
       </section>

@@ -49,24 +49,24 @@ export class Api {
       );
     }
   
-    // PUT https://around.nomoreparties.co/v1/groupId/cards/likes/cardId
-    addCardLike(cardId) {
+
+    changeCardLikeStatus(cardId, isLiked) {
+      let apiCall;
+
+      if (isLiked) {
+        apiCall = "PUT";
+      } else {
+        apiCall = "DELETE";
+      }
+
       return fetch(this._baseUrl + "/cards/likes/" + cardId, {
         headers: this._headers,
-        method: "PUT",
+        method: apiCall,
       }).then((res) =>
         res.ok ? res.json() : Promise.reject("Error! " + res.statusText)
       );
     }
-  
-    deleteCardLike(cardId) {
-      return fetch(this._baseUrl + "/cards/likes/" + cardId, {
-        headers: this._headers,
-        method: "DELETE",
-      }).then((res) =>
-        res.ok ? res.json() : Promise.reject("Error! " + res.statusText)
-      );
-    }
+
   
     // PATCH https://around.nomoreparties.co/v1/groupId/users/me
     setUserInfo({ name, about }) {
