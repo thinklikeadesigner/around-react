@@ -10,6 +10,10 @@ function Card(props) {
     props.onCardLike(props.card);
   }
 
+  function handleDeleteClick() {
+    props.onCardDelete(props.card);
+  }
+
   const currentUser = React.useContext(CurrentUserContext);
 
   // Checking if you are the owner of the current card
@@ -35,7 +39,7 @@ const cardLikeButtonClassName = `card__heart ${isLiked ? ' card__heart_active' :
         className="card__pic"
         onClick={handleClick}
       ></div>
-      <button aria-label="Delete Button" className={` ${cardDeleteButtonClassName}`}></button>
+      <button aria-label="Delete Button" onClick={handleDeleteClick} className={cardDeleteButtonClassName}></button>
       <div className="card__text">
         <h2 className="card__title">{props.card.name}</h2>
         <div className="card__likes_container">

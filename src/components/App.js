@@ -60,7 +60,8 @@ function App() {
         if(mounted) {
           setCurrentUser(res);
         }
-      })
+      }).catch((err) => {
+                  console.log(err);});
     return () => mounted = false;
   }, [])
 
