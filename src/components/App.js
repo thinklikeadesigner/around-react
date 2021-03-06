@@ -51,13 +51,26 @@ function App() {
     setIsImagePopupOpen(false);
   }
 
+  // React.useEffect(() => {
+  //   api.getUserInfo().then((res) => {
+  //     setCurrentUser(res);
+  //     console.log(res);
+  //   }).catch((err) => {
+  //     console.log(err);
+  // }, []);});
+
+
   React.useEffect(() => {
-    api.getUserInfo().then((res) => {
-      setCurrentUser(res);
-      console.log(res);
-    }).catch((err) => {
-      console.log(err);
-  }, []);});
+    let mounted = true;
+    api.getUserInfo()
+      .then((res) => {
+        if(mounted) {
+          setCurrentUser(res);
+        }
+      })
+    return () => mounted = false;
+  }, [])
+
 
   return (
     <>

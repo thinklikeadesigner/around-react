@@ -15,13 +15,25 @@ function Main({
   const [cards, setCards] = React.useState([]);
 
 
+ 
 
-  React.useEffect(() => {
-    api.getCardList().then((res) => {
-      setCards(res);
-    }).catch((err) => {
-      console.log(err);
-  }, []);});
+    React.useEffect(() => {
+    let mounted = true;
+    api.getCardList()
+      .then((res) => {
+        if(mounted) {
+          setCards(res);
+        }
+      })
+    return () => mounted = false;
+  }, [])
+
+  // React.useEffect(() => {
+  //   api.getCardList().then((res) => {
+  //     setCards(res);
+  //   }).catch((err) => {
+  //     console.log(err);
+  // }, []);});
 
   return (
     <main className="container">
