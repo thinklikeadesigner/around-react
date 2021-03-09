@@ -24,6 +24,8 @@ function handleSubmit(e) {
           formname="formAvatar"
           title="Avatar"
           onSubmit={handleSubmit}
+          isOpen={props.isOpen}
+onClose={props.onClose}
         >
           <input
             id="avatar-input"

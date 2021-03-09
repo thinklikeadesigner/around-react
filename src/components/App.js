@@ -60,14 +60,14 @@ function App() {
                 console.log(err);});
   }
 
-  function closeAllPopups({name, about}) {
+  function closeAllPopups() {
     setIsAddPlacePopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsDeleteCardPopupOpen(false);
     setSelectedCard(false);
     setIsImagePopupOpen(false);
-    api.getUserInfo({name, about}).then((res) => setCurrentUser(res));
+    api.getUserInfo().then((res) => setCurrentUser(res));
   }
 
   React.useEffect(() => {
