@@ -52,11 +52,8 @@ function App() {
   }
 
   function handleUpdateAvatar({avatar}) {
-    api.setUserAvatar({avatar}).then((res) => {
-        setCurrentUser(res);
-        console.log('handleeditavatar')
-      
-    }).catch((err) => {
+    api.setUserAvatar({avatar}).then(() =>
+        closeAllPopups()).catch((err) => {
                 console.log(err);});
   }
 
@@ -97,7 +94,7 @@ function App() {
           onCardClick={handleCardClick}
         />
         <Footer />
-       <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} onUpdateAvatar={handleUpdateAvatar}/> 
+       <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/> 
        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/> 
 
         <PopupWithForm
