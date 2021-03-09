@@ -18,6 +18,11 @@ function AddPlacePopup(props) {
       name: placeName,
       link: placeLink,
     });
+    setPlaceLink('');
+    setPlaceName('');
+
+    // DONE it's better to clear inputs after a successful submit
+
   }
 
   return (
@@ -38,9 +43,14 @@ function AddPlacePopup(props) {
         className="form__input form__input_type_title"
         placeholder="Title"
         required
+        value={placeName}
+// DONE if you have onChange in an input then you should have value attribute as well in this input
+// that's how components in React are controlled
+
         onChange={handleChangePlaceName}
       />
       <span className="form__input-error" id="title-input-error"></span>
+      
       <input
         id="url-input"
         type="url"
@@ -49,6 +59,9 @@ function AddPlacePopup(props) {
         placeholder="Image URL"
         required
         onChange={handleChangePlaceLink}
+        value={placeLink}
+        // DONE if you have onChange in an input then you should have value attribute as well in this input
+// that's how components in React are controlled
       />
       <span className="form__input-error" id="url-input-error"></span>
     </PopupWithForm>

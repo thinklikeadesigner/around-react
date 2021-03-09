@@ -24,7 +24,7 @@ function App() {
   );
   const [selectedCard, setSelectedCard] = React.useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
-  const [currentUser, setCurrentUser] = React.useState([]);
+  const [currentUser, setCurrentUser] = React.useState({});
 
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true);
@@ -47,15 +47,30 @@ function App() {
     setIsDeleteCardPopupOpen(true);
   }
 
+  //DONE you need to catch possible errors at the end of any server request
+  //add it to any server request
+
   function handleUpdateUser({ name, about }) {
-    api.setUserInfo({ name, about }).then((res) => setCurrentUser(res));
     closeAllPopups();
+    api
+      .setUserInfo({ name, about })
+      .then((res) => setCurrentUser(res))
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
+  //DONE you need to update avatar from the server response:
+  // the response from the server contains all the user's info (including avatar)
+  // .setUserAvatar({ avatar })
+  // .then((res) => setCurrentUser(res)) <== this is the update of all user info ===
+  // .then(() => closeAllPopups())
+
   function handleUpdateAvatar({ avatar }) {
+    closeAllPopups();
     api
       .setUserAvatar({ avatar })
-      .then(() => closeAllPopups())
+      .then((res) => setCurrentUser(res))
       .catch((err) => {
         console.log(err);
       });
@@ -68,9 +83,8 @@ function App() {
     setIsDeleteCardPopupOpen(false);
     setSelectedCard(false);
     setIsImagePopupOpen(false);
-    api.getUserInfo().then((res) => setCurrentUser(res));
+    // DONE delete this
   }
-
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
@@ -102,45 +116,38 @@ function App() {
       });
   }
   function handleUpdateCard(card) {
+    closeAllPopups();
     api
       .addCard(card)
-      .then((newCard) => {
-        setCards([newCard, ...cards]);
-        closeAllPopups();
-      })
+      .then((newCard) => setCards([newCard, ...cards]))
       .catch((err) => {
         console.log(err);
       });
   }
 
+  // DONE you don't need mounted variable here because useEffect fires only when the component is mounted
+  // it should be like that,
+
   React.useEffect(() => {
-    let mounted = true;
     api
       .getUserInfo()
       .then((res) => {
-        if (mounted) {
-          setCurrentUser(res);
-        }
+        setCurrentUser(res);
       })
       .catch((err) => {
         console.log(err);
       });
-    return () => (mounted = false);
   }, []);
 
   React.useEffect(() => {
-    let mounted = true;
     api
       .getCardList()
       .then((res) => {
-        if (mounted) {
-          setCards(res);
-        }
+        setCards(res);
       })
       .catch((err) => {
         console.log(err);
       });
-    return () => (mounted = false);
   }, []);
 
   return (

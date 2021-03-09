@@ -8,6 +8,12 @@ function EditProfilePopup(props) {
 
   // state containing the value of the input
 
+  // DONE React is complaining about undefined which comes as value into the inputs
+  // to calm it down you  need to add this check:
+
+  // setNameInput(currentUser.name || '');
+  // setDescriptionInput(currentUser.about || '');
+
   function handleChangeNameInput(e) {
     setNameInput(e.target.value);
   }
@@ -21,8 +27,8 @@ function EditProfilePopup(props) {
   // After loading the current user from the API
   // their data will be used in managed components.
   React.useEffect(() => {
-    setNameInput(currentUser.name);
-    setDescriptionInput(currentUser.about);
+    setNameInput(currentUser.name || "");
+    setDescriptionInput(currentUser.about || "");
   }, [currentUser]);
 
   function handleSubmit(e) {

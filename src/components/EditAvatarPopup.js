@@ -9,6 +9,8 @@ function EditAvatarPopup(props) {
     props.onUpdateAvatar({
       avatar: avatarRef.current.value,
     });
+
+    avatarRef.current.value = "";
   }
 
   return (
