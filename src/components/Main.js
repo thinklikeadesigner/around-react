@@ -1,9 +1,16 @@
 import React from "react";
-import { api } from "../utils/api";
 import Card from "../components/Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function Main({ onCardClick, onAddPlace, onEditProfile, onEditAvatar, cards, onCardLike, onCardDelete }) {
+function Main({
+  onCardClick,
+  onAddPlace,
+  onEditProfile,
+  onEditAvatar,
+  cards,
+  onCardLike,
+  onCardDelete,
+}) {
   const currentUser = React.useContext(CurrentUserContext);
 
   return (

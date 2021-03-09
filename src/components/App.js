@@ -6,10 +6,9 @@ import PopupWithForm from "./PopupWithForm";
 import PopupWithImage from "./PopupWithImage";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
-import {CurrentUserContext} from "../contexts/CurrentUserContext";
+import AddPlacePopup from "./AddPlacePopup";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { api } from "../utils/api";
-
-
 
 function App() {
   const [cards, setCards] = React.useState([]);
@@ -48,15 +47,18 @@ function App() {
     setIsDeleteCardPopupOpen(true);
   }
 
-  function handleUpdateUser({name, about}) {
-    api.setUserInfo({name, about}).then((res) => setCurrentUser(res));
+  function handleUpdateUser({ name, about }) {
+    api.setUserInfo({ name, about }).then((res) => setCurrentUser(res));
     closeAllPopups();
   }
 
-  function handleUpdateAvatar({avatar}) {
-    api.setUserAvatar({avatar}).then(() =>
-        closeAllPopups()).catch((err) => {
-                console.log(err);});
+  function handleUpdateAvatar({ avatar }) {
+    api
+      .setUserAvatar({ avatar })
+      .then(() => closeAllPopups())
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   function closeAllPopups() {
@@ -99,20 +101,32 @@ function App() {
         console.log(err);
       });
   }
-
-
+  function handleUpdateCard(card) {
+    api
+      .addCard(card)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   React.useEffect(() => {
     let mounted = true;
-    api.getUserInfo()
+    api
+      .getUserInfo()
       .then((res) => {
-        if(mounted) {
+        if (mounted) {
           setCurrentUser(res);
         }
-      }).catch((err) => {
-                  console.log(err);});
-    return () => mounted = false;
-  }, [])
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    return () => (mounted = false);
+  }, []);
 
   React.useEffect(() => {
     let mounted = true;
@@ -131,67 +145,49 @@ function App() {
 
   return (
     <>
-          <CurrentUserContext.Provider value={currentUser}>
-      <div className="page">
-
-        <Header />
-        <Main
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onEditAvatar={handleEditAvatarClick}
-          onDeleteCard={handleDeleteCardClick}
-          onCardClick={handleCardClick}
-          onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
-          cards={cards}
-        />
-        <Footer />
-       <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/> 
-       <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/> 
-
-        <PopupWithForm
-          isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups}
-          name="add"
-          formname="formAdd"
-          title="New Place"
-        >
-          <input
-            id="title-input"
-            minLength="2"
-            maxLength="30"
-            name="name"
-            type="text"
-            className="form__input form__input_type_title"
-            placeholder="Title"
-            required
+      <CurrentUserContext.Provider value={currentUser}>
+        <div className="page">
+          <Header />
+          <Main
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            onDeleteCard={handleDeleteCardClick}
+            onCardClick={handleCardClick}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
+            cards={cards}
           />
-          <span className="form__input-error" id="title-input-error"></span>
-          <input
-            id="url-input"
-            type="url"
-            name="link"
-            className="form__input form__input_type_url"
-            placeholder="Image URL"
-            required
+          <Footer />
+          <EditProfilePopup
+            isOpen={isEditProfilePopupOpen}
+            onClose={closeAllPopups}
+            onUpdateUser={handleUpdateUser}
           />
-          <span className="form__input-error" id="url-input-error"></span>
-        </PopupWithForm>
-        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
-        <PopupWithForm
-          isOpen={isDeleteCardPopupOpen}
-          onClose={closeAllPopups}
-          name="delete"
-          title="Are you sure?"
-        />
-        <PopupWithImage
-          isOpen={isImagePopupOpen}
-          onClose={closeAllPopups}
-          figimage={selectedCard.link}
-          figcaption={selectedCard.name}
-        />
-        
-      </div>
+          <EditAvatarPopup
+            isOpen={isEditAvatarPopupOpen}
+            onClose={closeAllPopups}
+            onUpdateAvatar={handleUpdateAvatar}
+          />
+
+          <AddPlacePopup
+            isOpen={isAddPlacePopupOpen}
+            onClose={closeAllPopups}
+            onUpdateCard={handleUpdateCard}
+          />
+          <PopupWithForm
+            isOpen={isDeleteCardPopupOpen}
+            onClose={closeAllPopups}
+            name="delete"
+            title="Are you sure?"
+          />
+          <PopupWithImage
+            isOpen={isImagePopupOpen}
+            onClose={closeAllPopups}
+            figimage={selectedCard.link}
+            figcaption={selectedCard.name}
+          />
+        </div>
       </CurrentUserContext.Provider>
     </>
   );
