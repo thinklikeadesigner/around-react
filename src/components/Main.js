@@ -44,7 +44,7 @@ function Main({ onCardClick, onAddPlace, onEditProfile, onEditAvatar }) {
         const oldCards = [...cards];
 
         const filteredCards = oldCards.filter(
-          (OldCard) => OldCard._id !== card._id
+          (oldCard) => oldCard._id !== card._id
         );
         setCards(filteredCards);
       })
@@ -52,6 +52,8 @@ function Main({ onCardClick, onAddPlace, onEditProfile, onEditAvatar }) {
         console.log(err);
       });
   }
+
+  
 
   return (
     <main className="container">
