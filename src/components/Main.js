@@ -3,57 +3,8 @@ import { api } from "../utils/api";
 import Card from "../components/Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function Main({ onCardClick, onAddPlace, onEditProfile, onEditAvatar }) {
+function Main({ onCardClick, onAddPlace, onEditProfile, onEditAvatar, cards, onCardLike, onCardDelete }) {
   const currentUser = React.useContext(CurrentUserContext);
-
-  const [cards, setCards] = React.useState([]);
-
-  React.useEffect(() => {
-    let mounted = true;
-    api
-      .getCardList()
-      .then((res) => {
-        if (mounted) {
-          setCards(res);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    return () => (mounted = false);
-  }, []);
-
-  function handleCardLike(card) {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
-
-    api
-      .changeCardLikeStatus(card._id, !isLiked)
-      .then((newCard) => {
-        const newCards = cards.map((c) => (c._id === card._id ? newCard : c));
-        setCards(newCards);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  function handleCardDelete(card) {
-    api
-      .removeCard(card._id)
-      .then(() => {
-        const oldCards = [...cards];
-
-        const filteredCards = oldCards.filter(
-          (oldCard) => oldCard._id !== card._id
-        );
-        setCards(filteredCards);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  
 
   return (
     <main className="container">
@@ -88,13 +39,13 @@ function Main({ onCardClick, onAddPlace, onEditProfile, onEditAvatar }) {
       </section>
       <section className="cards">
         <ul className="cards__list">
-          {cards.map((card, i) => (
+          {cards.map((card) => (
             <Card
-              card={card}
               key={card._id}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}
+              onCardLike={onCardLike}
+              onCardDelete={onCardDelete}
               onCardClick={onCardClick}
+              card={card}
             />
           ))}
         </ul>

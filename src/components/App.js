@@ -10,7 +10,9 @@ import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import { api } from "../utils/api";
 
 
+
 function App() {
+  const [cards, setCards] = React.useState([]);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(
     false
@@ -67,6 +69,39 @@ function App() {
     api.getUserInfo().then((res) => setCurrentUser(res));
   }
 
+
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+
+    api
+      .changeCardLikeStatus(card._id, !isLiked)
+      .then((newCard) => {
+        const newCards = cards.map((c) => (c._id === card._id ? newCard : c));
+        setCards(newCards);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function handleCardDelete(card) {
+    api
+      .removeCard(card._id)
+      .then(() => {
+        const oldCards = [...cards];
+
+        const filteredCards = oldCards.filter(
+          (oldCard) => oldCard._id !== card._id
+        );
+        setCards(filteredCards);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+
+
   React.useEffect(() => {
     let mounted = true;
     api.getUserInfo()
@@ -79,6 +114,20 @@ function App() {
     return () => mounted = false;
   }, [])
 
+  React.useEffect(() => {
+    let mounted = true;
+    api
+      .getCardList()
+      .then((res) => {
+        if (mounted) {
+          setCards(res);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    return () => (mounted = false);
+  }, []);
 
   return (
     <>
@@ -92,6 +141,9 @@ function App() {
           onEditAvatar={handleEditAvatarClick}
           onDeleteCard={handleDeleteCardClick}
           onCardClick={handleCardClick}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
+          cards={cards}
         />
         <Footer />
        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/> 
