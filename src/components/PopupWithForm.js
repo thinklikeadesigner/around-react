@@ -11,6 +11,7 @@ function PopupWithForm(props) {
     >
       <div className="modal__container">
         <form
+               onSubmit={props.onSubmit}
           action="#"
           className={`form form_${props.formname}`}
           name={props.name}
@@ -27,6 +28,7 @@ function PopupWithForm(props) {
           type="reset"
           className={`modal__close-button modal__close-button_${props.name}`}
           onClick={props.onClose}
+
         ></button>
       </div>
     </div>

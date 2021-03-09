@@ -4,8 +4,10 @@ import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import PopupWithImage from "./PopupWithImage";
+import EditProfilePopup from "./EditProfilePopup";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import { api } from "../utils/api";
+
 
 function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
@@ -33,6 +35,7 @@ function App() {
 
 
 
+
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
   }
@@ -44,13 +47,24 @@ function App() {
     setIsDeleteCardPopupOpen(true);
   }
 
-  function closeAllPopups() {
+  function handleUpdateUser({name, about}) {
+    api.setUserInfo({name, about}).then((res) => setCurrentUser(res));
+    closeAllPopups();
+  }
+
+  function handleUpdateAvatar({avatar}) {
+    // api.setUserAvatar({avatar}).then((res) => 
+    //   setCurrentAvatar(res));
+  }
+
+  function closeAllPopups({name, about}) {
     setIsAddPlacePopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsDeleteCardPopupOpen(false);
     setSelectedCard(false);
     setIsImagePopupOpen(false);
+    api.getUserInfo({name, about}).then((res) => setCurrentUser(res));
   }
 
   React.useEffect(() => {
@@ -80,36 +94,7 @@ function App() {
           onCardClick={handleCardClick}
         />
         <Footer />
-        <PopupWithForm
-          isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}
-          name="edit"
-          formname="formEdit"
-          title="Edit Profile"
-        >
-          <input
-            id="name-input"
-            minLength="2"
-            maxLength="40"
-            name="name"
-            type="text"
-            className="form__input form__input_type_name"
-            placeholder="Name"
-            required
-          />
-          <span className="form__input-error" id="name-input-error"></span>
-          <input
-            id="job-input"
-            minLength="2"
-            maxLength="200"
-            type="text"
-            name="about"
-            className="form__input form__input_type_job"
-            placeholder="About Me"
-            required
-          />
-          <span className="form__input-error" id="job-input-error"></span>
-        </PopupWithForm>
+       <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/> 
 
         <PopupWithForm
           isOpen={isAddPlacePopupOpen}
@@ -139,25 +124,7 @@ function App() {
           />
           <span className="form__input-error" id="url-input-error"></span>
         </PopupWithForm>
-        <PopupWithForm
-          isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}
-          name="avatar"
-          formname="formAvatar"
-          title="Avatar"
-        >
-          <input
-            id="avatar-input"
-            type="url"
-            name="avatar"
-            className="form__input form__input_type_url form__input_type_avatar"
-            placeholder="Image URL"
-            required
-          />
-
-          <span className="form__input-error" id="avatar-input-error"></span>
-        </PopupWithForm>
-
+        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
         <PopupWithForm
           isOpen={isDeleteCardPopupOpen}
           onClose={closeAllPopups}
