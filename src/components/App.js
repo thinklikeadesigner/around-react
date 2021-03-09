@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import PopupWithImage from "./PopupWithImage";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import { api } from "../utils/api";
 
@@ -33,14 +34,12 @@ function App() {
     setIsImagePopupOpen(true);
   }
 
-
-
-
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
   }
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
+    console.log(isEditAvatarPopupOpen);
   }
 
   function handleDeleteCardClick() {
@@ -53,18 +52,22 @@ function App() {
   }
 
   function handleUpdateAvatar({avatar}) {
-    // api.setUserAvatar({avatar}).then((res) => 
-    //   setCurrentAvatar(res));
+    api.setUserAvatar({avatar}).then((res) => {
+        setCurrentUser(res);
+        console.log('handleeditavatar')
+      
+    }).catch((err) => {
+                console.log(err);});
   }
 
-  function closeAllPopups({name, about}) {
+  function closeAllPopups() {
     setIsAddPlacePopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsDeleteCardPopupOpen(false);
     setSelectedCard(false);
     setIsImagePopupOpen(false);
-    api.getUserInfo({name, about}).then((res) => setCurrentUser(res));
+    api.getUserInfo().then((res) => setCurrentUser(res));
   }
 
   React.useEffect(() => {
@@ -94,7 +97,8 @@ function App() {
           onCardClick={handleCardClick}
         />
         <Footer />
-       <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/> 
+       <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} onUpdateAvatar={handleUpdateAvatar}/> 
+       <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/> 
 
         <PopupWithForm
           isOpen={isAddPlacePopupOpen}
